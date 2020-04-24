@@ -205,7 +205,7 @@ class EditActivity: AppCompatActivity() {
                                 selectedIngreTypes.add(getIngreType(i))
                     }
 
-                    here@for(food in foodlist) {//선택된 재료에 해당 음식의 모든 재료가 포함된 경우에만 노출
+                    here@for(food in foodlist) {
                         for(ingredient in food.getIngredients()) {
                             if(!selectedIngreTypes.contains(ingredient))
                                 continue@here

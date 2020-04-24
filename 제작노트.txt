@@ -1,0 +1,52 @@
+뭐먹지(가제)
+
+---
+
+기능 설명
+
+-랜덤으로 메뉴 추천.
+ -버튼 누르면 설정 범위에서 랜덤 추출.
+ -영수 음식 목록 참고 초기화.
+  -사용자 음식 추가 기능.
+ -랜덤 돌릴 때 카테고리 제한 기능.
+  -종류별 구분 - 한식, 중식, 일식, 양식, 그 외, 패스트푸드 등
+  -식재료별 구분
+ -전체 목록에서 개별 메뉴 제외 기능.
+
+---
+
+구현 방식
+
+---[버전 1.0]---
+MainActivity.kt - activity_main.xml
+-foodlist에 전체 음식 목록 불러옴.(default는 FoodData.kt의 데이터로 초기화)
+-recyclerView에 foodlist 중 사용자가 선택한 음식 목록 출력.(dafault는 전체 foodlist)
+-randomButton을 누르면 음식 목록에서 랜덤으로 음식 하나 골라서 AlertDialog로 출력.
+-addButton을 누르면 음식 추가할 수 있는 AlertDialog 생성.
+ -addNameEditText로 음식 이름 입력.
+ -addIngredientButton으로 재료 선택할 수 있는 AlertDialog 생성.
+  -재료 목록에 원하는 재료가 없는 경우 addIngredientEditText에 입력하여 사용자가 추가 가능.
+ -addSpinner로 종류 선택.
+-editBUtton을 누르면 EditActivity.kt - activity_edit.xml로 이동.
+ -editRecyclerView에서 음식 목록에 노출 시킬 음식들 선택 가능.
+  -typeLinearLayout에 음식 종류 각각 Button으로 노출.
+  -ingreTypeLinearLayout에 음식 재료 각각 Button으로 노출.
+  -각각의 경우 Button 선택 후 applyButton 누르면 해당되는 음식들만 노출.
+  -typeLinearLayout과 ingreTypeLinearLayout은 slotButton으로 visibility 교체
+  -typeLinearLayout, ingreTypeLinearLayout, editRecyclerView 각각 전체 목록 선택할 수 있는 '모두' 객체 추가.
+ -editFinishButton으로 MainActivity.kt - activity_main.xml로 돌아가면서 선택된 음식 목록 정보 최신화.
+-saveButton을 누르면 foodlist 파일로 저장
+ -onDestroy() 실행 시에도 save() 실행
+
+---
+
+추가할 기능
+
+-음식 별로 통계
+ -추천 성공률 : 실제 먹은 횟수/추천한 횟수 * 100
+ -최근 섭취율 : (사용자 기간 일단위 설정) 해당 음식 먹은 횟수/음식 먹은 총 횟수 * 100
+ -달력 구현해서 날짜마다 음식 목록 작성
+
+-메뉴 선정 후 지도 앱 연동 검색
+ -카카오 API로 가능?
+

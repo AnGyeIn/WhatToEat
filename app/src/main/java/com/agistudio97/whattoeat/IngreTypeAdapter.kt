@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Button
 import android.widget.LinearLayout
 
-class IngreTypeAdapter(val context: Context) {
+class IngreTypeAdapter(private val context: Context) {
 
     private val ingreTypes = arrayListOf<String>()
     private val checkedIndex = arrayListOf<Boolean>()

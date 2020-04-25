@@ -1,7 +1,6 @@
 package com.agistudio97.whattoeat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,12 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.agistudio97.whattoeat.MainActivity.Companion.editAdapter
 import com.agistudio97.whattoeat.MainActivity.Companion.foodlist
 import com.agistudio97.whattoeat.MainActivity.Companion.ingredientlist
-import com.agistudio97.whattoeat.MainActivity.Companion.mainAdapter
 import com.agistudio97.whattoeat.MainActivity.Companion.selectedIngredients
 import com.agistudio97.whattoeat.MainActivity.Companion.selectedType
 import com.agistudio97.whattoeat.MainActivity.Companion.types
 import kotlinx.android.synthetic.main.activity_edit.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_food_dialog.view.*
 import kotlinx.android.synthetic.main.select_ingredient_dialog.view.*
 

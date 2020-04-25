@@ -2,6 +2,7 @@ package com.agistudio97.whattoeat
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -25,12 +26,11 @@ import kotlinx.android.synthetic.main.select_ingredient_dialog.view.*
 import java.io.*
 import java.lang.Exception
 import java.util.*
-import java.util.jar.Manifest
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var file: File
+    private lateinit var file: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,8 +94,12 @@ class MainActivity : AppCompatActivity() {
     fun onRandomButtonClicked(v: View) {
         AlertDialog.Builder(this).run {
             setTitle("랜덤 추천 결과")
-            setMessage(randomPickFrom(mainAdapter.getFoods()).name)
+            val selectedFood = randomPickFrom(mainAdapter.getFoods()).name
+            setMessage(selectedFood)
             setPositiveButton("확인") { _, _ -> }
+            setNeutralButton("지도에서 검색") { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:?q=$selectedFood")))
+            }
             create()
             show()
         }

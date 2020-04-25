@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Button
 import android.widget.LinearLayout
 
-class TypeAdapter(val context: Context) {
+class TypeAdapter(private val context: Context) {
 
     private val types = arrayOf("한식", "중식", "일식", "양식", "그 외", "패스트푸드")
     private val checkedIndex = arrayOf(true, true, true, true, true, true)

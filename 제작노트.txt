@@ -34,12 +34,23 @@
   -typeLinearLayout과 ingreTypeLinearLayout은 slotButton으로 visibility 교체
   -typeLinearLayout, ingreTypeLinearLayout, editRecyclerView 각각 전체 목록 선택할 수 있는 '모두' 객체 추가.
  -editFinishButton으로 MainActivity.kt - activity_main.xml로 돌아가면서 선택된 음식 목록 정보 최신화.
--saveButton을 누르면 foodlist 파일로 저장
- -onDestroy() 실행 시에도 save() 실행
+-saveButton을 누르면 foodlist 파일로 저장.
+ -onDestroy() 실행 시에도 save() 실행.
 
 ---[버전 1.1]---
-랜덤 추천한 메뉴 지도 앱으로 연결해서 검색
--AlertDialog에 NeutralButton 추가하여 지도 앱 여는 Intent 실행
+랜덤 추천한 메뉴 지도 앱으로 연결해서 검색.
+-AlertDialog에 NeutralButton 추가하여 지도 앱 여는 Intent 실행.
+
+---[버전 1.2]---
+버그 수정
+-메인 목록에 선택한 음식이 없는 상태에서 랜덤 버튼 동작 시 앱 강제 종료.
+ -예외처리로 Toast 메시지 출력하도록 수정.
+-음식 추가 후 편집에서 선택 해제하면 메인 목록에 엉뚱한 음식이 노출.
+ -RecyclerView의 오류인 듯.
+ -ListView로 변경하고 FoodEditAdapter로 BaseAdapter 상속하게 수정.
+-실행 중인 앱에서 제외하는 방식으로 종료하는 경우 재실행 시 불러오기 오류.
+ -자동 저장을 onDestroy()에 구현해서 그런 듯.
+ -onStop()으로 수정.
 
 ---
 

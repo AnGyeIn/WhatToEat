@@ -1,11 +1,13 @@
 package com.agistudio97.whattoeat
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
         if(permissionCheck != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
 
         val sdcardFolder = Environment.getExternalStorageDirectory()
         val sdcardPath = sdcardFolder.absolutePath
@@ -92,16 +94,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onRandomButtonClicked(v: View) {
-        AlertDialog.Builder(this).run {
-            setTitle("랜덤 추천 결과")
-            val selectedFood = randomPickFrom(mainAdapter.getFoods()).name
-            setMessage(selectedFood)
-            setPositiveButton("확인") { _, _ -> }
-            setNeutralButton("지도에서 검색") { _, _ ->
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:?q=$selectedFood")))
+        if(mainAdapter.getFoods().isEmpty())
+            Toast.makeText(this@MainActivity, "음식 목록이 비어 있습니다. 후보 음식을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+        else {
+            AlertDialog.Builder(this).run {
+                setTitle("랜덤 추천 결과")
+                val selectedFood = randomPickFrom(mainAdapter.getFoods()).name
+                setMessage(selectedFood)
+                setPositiveButton("확인") { _, _ -> }
+                setNeutralButton("지도에서 검색") { _, _ ->
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:?q=$selectedFood")))
+                }
+                create()
+                show()
             }
-            create()
-            show()
         }
     }
     private fun randomPickFrom(list: ArrayList<Food>): Food {
@@ -133,8 +139,12 @@ class MainActivity : AppCompatActivity() {
                     for(x in "$newIngredients ") {
                         if(x==',' || x==' ') {
                             if(ingredient != "") {
-                                ingredientlist.add(ingredient)
-                                selectedIngredients.add(ingredient)
+                                if(ingredientlist.contains(ingredient))
+                                    Toast.makeText(this@MainActivity, "이미 목록에 있는 재료가 추가 재료에 포함되었습니다. 다시 한 번 확인해주세요.", Toast.LENGTH_SHORT).show()
+                                else {
+                                    ingredientlist.add(ingredient)
+                                    selectedIngredients.add(ingredient)
+                                }
                                 ingredient = ""
                             }
                             continue
@@ -234,9 +244,9 @@ class MainActivity : AppCompatActivity() {
         save()
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         save()
-        super.onDestroy()
+        super.onStop()
     }
 
     companion object {

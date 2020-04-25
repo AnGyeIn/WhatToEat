@@ -35,22 +35,18 @@ class EditActivity: AppCompatActivity() {
             ingreTypeAdapter.addIngreType(ingreType)
         ingreTypeAdapter.setAdapterTo(ingreTypeLinearLayout)
 
-        editAdapter = FoodEditAdapter().apply {
+        editAdapter = FoodEditAdapter(this).apply {
             for(food in foodlist)
                 addFood(food)
         }
 
-        editRecyclerView.run {
-            adapter = editAdapter
-            layoutManager = LinearLayoutManager(applicationContext)
-        }
+        editListView.adapter = editAdapter
 
         wholeSwitch.run {
             isChecked = true
             setOnCheckedChangeListener { _, isChecked ->
-                editRecyclerView.run {
-                    val adapter = adapter as FoodEditAdapter
-                    adapter.run {
+                editListView.run {
+                    (adapter as FoodEditAdapter).run {
                         for(food in getFoods())
                             food.isSelected = isChecked
 
@@ -180,8 +176,8 @@ class EditActivity: AppCompatActivity() {
     }
 
     fun onApplyButtonClicked(v: View) {
-        editRecyclerView.run {
-            adapter = editAdapter.apply {
+        editListView.run {
+            (adapter as FoodEditAdapter).run {
                 clearFood()
                 if(isSlotForType) {
                     val selectedTypes = arrayListOf<Int>()

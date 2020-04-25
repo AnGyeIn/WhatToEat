@@ -1,36 +1,39 @@
 package com.agistudio97.whattoeat
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
+import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.food_item_edit.view.*
 
-class FoodEditAdapter: RecyclerView.Adapter<FoodEditAdapter.FoodEditViewHolder>() {
+class FoodEditAdapter(private val context: Context): BaseAdapter() {
 
     private val foods = arrayListOf<Food>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodEditViewHolder {
-        return FoodEditViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.food_item_edit, parent, false).apply {
-            foodSwitch
-        })
-    }
-
-    override fun getItemCount(): Int {
-        return foods.size
-    }
-
-    override fun onBindViewHolder(holder: FoodEditViewHolder, position: Int) {
-        holder.containerView.run {
-                foodSwitch.run {
-                    text = foods[position].name
-                    isChecked = foods[position].isSelected
-                    setOnCheckedChangeListener { _, isChecked ->
-                        foods[position].isSelected = isChecked
-                    }
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        return FoodItemEdit(context).apply {
+            foodSwitch.run {
+                text = foods[position].name
+                isChecked = foods[position].isSelected
+                setOnCheckedChangeListener { _, isChecked ->
+                    foods[position].isSelected = isChecked
                 }
+            }
         }
+    }
+
+    override fun getItem(position: Int): Any {
+        return foods[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getCount(): Int {
+        return foods.size
     }
 
     fun addFood(food: Food) {
@@ -45,5 +48,12 @@ class FoodEditAdapter: RecyclerView.Adapter<FoodEditAdapter.FoodEditViewHolder>(
         foods.clear()
     }
 
-    class FoodEditViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    class FoodItemEdit(context: Context): LinearLayout(context) {
+        init {
+            LayoutInflater.from(context).run {
+                inflate(R.layout.food_item_edit, this@FoodItemEdit, true)
+                foodSwitch
+            }
+        }
+    }
 }

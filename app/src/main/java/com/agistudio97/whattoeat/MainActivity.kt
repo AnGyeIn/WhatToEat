@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             ObjectInputStream(FileInputStream(file)).run {
                 foodlist = readObject() as ArrayList<Food>
                 for(food in foodlist) {
-                    foodlist.add(food)
                     here@for(ingredient in food.getIngredients()) {
                         for(coingredient in ingredientlist)
                             if(ingredient == coingredient)
@@ -217,7 +216,7 @@ class MainActivity : AppCompatActivity() {
     private fun save() {
         try {
             ObjectOutputStream(FileOutputStream(file)).run {
-                writeObject(foodlist as ArrayList<Food>)
+                writeObject(foodlist)
                 flush()
                 close()
             }
